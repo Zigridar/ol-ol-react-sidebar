@@ -1,16 +1,14 @@
 {
   "compilerOptions": {
-    "outDir": "../lib",
+    "outDir": "./dist",
     "target": "es5",
     "module": "es6",
-    "jsx": "react-native",
+    "jsx": "react",
     "noImplicitAny": true,
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
     "declaration": true,
-    "sourceMap": true,
-    "skipLibCheck": true
+    "sourceMap": true
   },
-  "include": ["Sidebar.css", "*.tsx", "*ts"],
-  "exclude": ["node_modules", "./example"]
+  "exclude": ["node_modules"]
 }
