@@ -1,17 +1,8 @@
-import React, {useEffect, useRef} from "react"
+import React, {useEffect, useRef} from 'react'
 import './Sidebar.css'
+import {SideBarProps, TabPaneProps, TabProps} from './index'
 
-type SidebarPosition = 'left' | 'right'
-
-interface ITabProps {
-    id: string
-    icon?: React.ReactNode
-}
-
-interface TabProps extends ITabProps {
-    open: (event: React.MouseEvent<HTMLAnchorElement>) => void
-}
-
+/** Toolbar tab-button */
 const Tab: React.FC<TabProps> = (props: TabProps) => {
 
     const onClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
@@ -26,16 +17,7 @@ const Tab: React.FC<TabProps> = (props: TabProps) => {
     )
 }
 
-interface ITabPaneProps {
-    id: string
-    headerText: string
-    content: React.ReactNode
-}
-
-interface TabPaneProps extends ITabPaneProps {
-    close: () => void
-}
-
+/** Tab content */
 const TabPane: React.FC<TabPaneProps> = (props: TabPaneProps) => {
     return(
         <div className="sidebar-pane" id={props.id}>
@@ -48,20 +30,16 @@ const TabPane: React.FC<TabPaneProps> = (props: TabPaneProps) => {
     )
 }
 
-type PaneProps = ITabProps & ITabPaneProps
-
-interface SideBarProps {
-    tabs: PaneProps[]
-    position: SidebarPosition
-    settingsTab?: TabProps
-}
-
+/** Sidebar */
 const Sidebar: React.FC<SideBarProps> = (props: SideBarProps) => {
 
+    /** ref to html node */
     const ref = useRef<HTMLDivElement>(null)
 
+    /** @returns tab buttons */
     const getTabItems = () => ref.current.querySelectorAll('ul.sidebar-tabs > li, .sidebar-tabs > ul > li')
 
+    /** @returns tab panes */
     const getPanes = () => ref.current.querySelectorAll('.sidebar-pane')
 
     /** close sidebar */
@@ -78,22 +56,20 @@ const Sidebar: React.FC<SideBarProps> = (props: SideBarProps) => {
         }
 
         /** close sidebar */
-        if (!self.classList.contains('collapsed')) {
+        if (!self.classList.contains('collapsed'))
             self.classList.add('collapsed')
-        }
     }
 
+    /** Set sidebar position after mount */
     useEffect(() => {
         ref.current.classList.add(`sidebar-${props.position}`)
     }, [])
 
+    /** open sidebar */
     const open = (id: string) => {
 
         const tabItems = getTabItems()
-
         const panes = getPanes()
-
-        const self = ref.current
 
         /** hide old active contents and show new content */
         for (let i = panes.length - 1; i >= 0; i--) {
@@ -114,13 +90,13 @@ const Sidebar: React.FC<SideBarProps> = (props: SideBarProps) => {
         }
 
         /** open sidebar (if necessary) */
-        if (self.classList.contains('collapsed')) {
-            self.classList.remove('collapsed')
+        if (ref.current.classList.contains('collapsed')) {
+            ref.current.classList.remove('collapsed')
         }
     }
 
     return(
-        <div ref={ref} id="sidebar" className="sidebar collapsed">
+        <div ref={ref} id={props.id} className="sidebar collapsed">
             <div className="sidebar-tabs">
                 <ul role="tablist">
                     {
@@ -151,4 +127,3 @@ const Sidebar: React.FC<SideBarProps> = (props: SideBarProps) => {
 }
 
 export default Sidebar
-export { PaneProps }

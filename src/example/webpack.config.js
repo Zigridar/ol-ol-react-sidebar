@@ -6,20 +6,15 @@ const TerserWebpackPlugin = require('terser-webpack-plugin')
 
 /** Webpack config **/
 module.exports = {
-  context: path.resolve(__dirname, 'src'),
   mode: 'development',
   entry: {
-    main: './index.tsx'
+    main: './src/example/index.tsx'
   },
   stats: {
     children: true
   },
   devServer: {
-    port: 5000,
-    proxy: {
-      context: () => true,
-      target: 'http://localhost:8080',
-    }
+    port: 5000
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.css']
@@ -35,7 +30,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './index.html',
+      template: './src/example//index.html',
       minify: {
         collapseWhitespace: false
       }

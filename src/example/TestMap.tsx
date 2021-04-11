@@ -1,16 +1,19 @@
-import React, {useEffect} from "react"
-import {Map, View} from "ol"
-import {OSM} from "ol/source"
-import {fromLonLat} from "ol/proj"
-import {Tile} from "ol/layer"
+import React, {useEffect} from 'react'
+import {Map, View} from 'ol'
+import {OSM} from 'ol/source'
+import {fromLonLat} from 'ol/proj'
+import {Tile} from 'ol/layer'
 import 'ol/ol.css'
-import Sidebar, {PaneProps} from './Sidebar/Sidebar'
+import Sidebar from '../Sidebar'
 import {Control} from 'ol/control'
+import {PaneProps} from '../index'
 
 const MAP_ID = 'map'
+const SIDEBAR_ID = 'sidebar'
 
-const LoraMap = () => {
+const TestMap = () => {
 
+    /** build map and add sidebar as map control */
     useEffect(() => {
         const map = new Map({
             target: MAP_ID,
@@ -26,12 +29,13 @@ const LoraMap = () => {
         })
 
         const control = new Control({
-            element: document.querySelector('#sidebar')
+            element: document.querySelector(`#${SIDEBAR_ID}`)
         })
 
         map.addControl(control)
     }, [])
 
+    /** test sidebar tabs */
     const tabPanes: PaneProps[] = [
         {
             id: 'home',
@@ -39,18 +43,18 @@ const LoraMap = () => {
             headerText: 'Home'
         },
         {
-            id: 'me',
-            content: <div>Kek</div>,
-            headerText: 'Test'
+            id: 'about',
+            content: <div>About</div>,
+            headerText: 'About'
         }
     ]
 
     return(
         <>
-            <Sidebar tabs={tabPanes} position={"left"} />
+            <Sidebar id={SIDEBAR_ID} tabs={tabPanes} position={"left"} />
             <div style={{ height: '100%', width: '100%' }} id={MAP_ID} />
         </>
         )
 }
 
-export default LoraMap
+export default TestMap
